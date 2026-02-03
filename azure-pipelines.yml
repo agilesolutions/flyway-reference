@@ -32,7 +32,7 @@ stages:
               workingDirectory: '$(System.DefaultWorkingDirectory)'
               gradleWrapperFile: '$(System.DefaultWorkingDirectory)/gradlew'
               gradleOptions: '-Dorg.gradle.daemon=false'
-              tasks: '--info build -x test'
+              tasks: 'build'
 
           - publish: helm-deploy
             artifact: helm-deploy
