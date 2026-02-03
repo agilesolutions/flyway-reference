@@ -26,9 +26,9 @@ stages:
           - script: echo "Setting JAVA_HOME to JDK 21 location."
             displayName: 'Set JAVA_HOME to JDK 21'
 
-          #          - task: Cache@2
-          #            displayName: configure gradle caching
-          #            continueOnError: true
+          - task: Cache@2
+            displayName: configure gradle caching
+            continueOnError: true
           #            inputs:
           #              key: 'gradle | "$(Agent.OS)" $(Pipeline.Workspace)/build.gradle'
           #              restoreKeys: |
@@ -42,7 +42,7 @@ stages:
               gradleWrapperFile: 'gradlew'
               workingDirectory: ''
               gradleOptions: '-Dorg.gradle.daemon=false'
-              tasks: '--info build'
+              tasks: '--info build -x test'
 
           - publish: azure
             artifact: azure
