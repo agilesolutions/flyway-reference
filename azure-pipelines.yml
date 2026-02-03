@@ -29,8 +29,8 @@ stages:
           - task: Gradle@2
             displayName: 'build service'
             inputs:
-              gradleWrapperFile: 'gradlew'
-              workingDirectory: ''
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              gradleWrapperFile: '$(System.DefaultWorkingDirectory)/gradlew'
               gradleOptions: '-Dorg.gradle.daemon=false'
               tasks: '--info build -x test'
 
