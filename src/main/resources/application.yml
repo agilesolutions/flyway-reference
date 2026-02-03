@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  tracing:
+    enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: myuser
+    password: mypassword
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 0
+      idleTimeout: 10000
+      max-lifetime: 180000
+  flyway:
+    enabled: true
+    outOfOrder: true
+    ignoreFutureMigrations: true
+    locations: classpath:/db/flyway/postgres
+    url: jdbc:postgresql://localhost:5432/mydb
+    user: myuser
+    password: mypassword
+#    username: ${DB_FLYWAY_USER}
+#    password: ${DB_FLYWAY_PASSWORD}
+#    url: jdbc:postgresql://com.rong:5432/customer?ApplicationName=CustomerService&currentSchema=customer
+

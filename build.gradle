@@ -1,0 +1,80 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.4.5'
+}
+
+group = 'com.agilesolutions.reference'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+
+}
+ext {
+    springBootVersion = '3.4.5'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    implementation 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    // tests
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    // swagger ui for testing
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.9")
+}
+
+bootJar {
+
+    archiveFileName = 'application.jar'
+
+}
+
+test {
+    testLogging {
+        events = ["passed", "failed", "skipped"]
+    }
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+}
+
+task generateHelmChart(type: Copy) {
+    inputs.dir('helm-deploy/templates/charts')
+    inputs.file('gradle.properties')
+    from('helm-deploy/templates') {
+        include 'charts/**'
+        filter(ReplaceTokens, tokens: [chartVersion: version,
+                                       appVersion: version])
+    }
+    into('build')
+
+}
+
+task copyDockerFile(type: Copy) {
+
+    inputs.file('Dockerfile')
+    from('Dockerfile')
+    into('build')
+}
