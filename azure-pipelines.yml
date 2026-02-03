@@ -29,10 +29,10 @@ stages:
           - task: Gradle@2
             displayName: 'build service'
             inputs:
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
-              gradleWrapperFile: '$(System.DefaultWorkingDirectory)/gradlew'
+              gradleWrapperFile: 'gradlew'
+              workingDirectory: ''
               gradleOptions: '-Dorg.gradle.daemon=false'
-              tasks: 'build'
+              tasks: '--info build'
 
           - publish: helm-deploy
             artifact: helm-deploy
