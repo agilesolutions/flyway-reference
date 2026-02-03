@@ -29,6 +29,13 @@ stages:
           - task: Cache@2
             displayName: configure gradle caching
             continueOnError: true
+            inputs:
+              key: 'gradle | "$(Agent.OS)" $(Pipeline.Workspace)/build.gradle'
+              restoreKeys: |
+                gradle | "$(Agent.OS)"
+                gradle
+              path: '$(Pipeline.Workspace)/s/.gradle'
+
           #            inputs:
           #              key: 'gradle | "$(Agent.OS)" $(Pipeline.Workspace)/build.gradle'
           #              restoreKeys: |
