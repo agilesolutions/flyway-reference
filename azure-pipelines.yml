@@ -1,12 +1,15 @@
-variables:
-  serviceName: 'reference'
-  path: './$(reference)'
-
 trigger:
 - master
 
 pool:
   vmImage: 'ubuntu-latest'
+
+variables:
+  tag: '$(Build.BuildId)'
+  vmImageName: 'ubuntu-latest'
+  serviceName: 'reference'
+  path: './$(reference)'
+
 
 stages:
   - stage: Build
