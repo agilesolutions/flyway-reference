@@ -1,6 +1,37 @@
-/.idea/
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### gradle build files
+
 /out/
 /build/
+!/build/libs/application.jar
 /.gradle/
-/src/main/main.iml
-/src/test/test.iml
+#gradlew
+#gradlew.bat
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# lock files
+
+*.terraform.lock.*
+
+# Crash log files
+crash.log
