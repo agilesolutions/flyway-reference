@@ -26,16 +26,6 @@ stages:
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
 
-          - task: Cache@2
-            displayName: configure gradle caching
-            continueOnError: true
-            inputs:
-              key: 'gradle | "$(Agent.OS)" $(Pipeline.Workspace)/build.gradle'
-              restoreKeys: |
-                gradle | "$(Agent.OS)"
-                gradle
-              path: '$(Pipeline.Workspace)/.gradle'
-
           - task: Gradle@2
             displayName: 'build service'
             inputs:
