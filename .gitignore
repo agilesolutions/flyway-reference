@@ -19,6 +19,7 @@
 /build/
 !/build/libs/application.jar
 /.gradle/
+!/.gradle/wrapper/gradle-wrapper.jar
 #gradlew
 #gradlew.bat
 
