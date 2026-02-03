@@ -1,11 +1,6 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
 variables:
-  serviceName: 'customer-service'
-  path: './$(serviceName)'
+  serviceName: 'reference'
+  path: './$(reference)'
 
 trigger:
 - master
@@ -13,62 +8,42 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-  - task: JavaToolInstaller@0
-    displayName: 'user preinstalled jdk'
-    inputs:
-      versionSpec: '17'
-      jdkArchitectureOption: 'x64'
-      jdkSourceOption: 'Preinstalled'
+stages:
+  - stage: Build
+    displayName: Build stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: JavaToolInstaller@0
+            inputs:
+              versionSpec: '21'
+              jdkArchitectureOption: 'x64'
+              jdkSourceOption: 'PreInstalled'
 
-  - task: Cache@2
-    displayName: configure gradle caching
-    continueOnError: true
-    inputs:
-      key: 'gradle | "$(Agent.OS)" $(path)/build.gradle'
-      restoreKeys: |
-        gradle | "$(Agent.OS)"
-        gradle
-      path: '$(Pipeline.Workspace)/.gradle'
+          - script: echo "Setting JAVA_HOME to JDK 21 location."
+            displayName: 'Set JAVA_HOME to JDK 21'
 
-  - task: Gradle@2
-    displayName: 'build service'
-    inputs:
-      gradleWrapperFile: '$(path)/gradlew'
-      workingDirectory: '$(path)'
-      options: '--no-daemon'
-      tasks: '--infgo build -x test'
+          - task: Cache@2
+            displayName: configure gradle caching
+            continueOnError: true
+            inputs:
+              key: 'gradle | "$(Agent.OS)" $(Pipeline.Workspace)/build.gradle'
+              restoreKeys: |
+                gradle | "$(Agent.OS)"
+                gradle
+              path: '$(Pipeline.Workspace)/.gradle'
 
+          - task: Gradle@2
+            displayName: 'build service'
+            inputs:
+              gradleWrapperFile: 'gradlew'
+              workingDirectory: ''
+              gradleOptions: '-Dorg.gradle.daemon=false'
+              tasks: '--info build -x test'
 
-  - task: CmdLine@2
-    inputs:
-      script: 'tree'
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '**/TEST-*.xml'
-      mergeTestResults: true
-  - task: PublishCodeCoverageResults@1
-    inputs:
-      codeCoverageTool: 'JaCoCo'
-      summaryFileLocation: '$(System.SourcesDirectory)/CoverageResults/Coberture.xml'
-      failIfCoverageEmpty: false
-  - task: Maven@3
-    displayName: Build Docker image
-    inputs:
-      mavenPomFile: 'pom.xml'
-      goals: 'spring-boot:build-image'
-      publishJUnitResults: false
-      jdkVersionOption: '1.11'
-  - task: Docker@2
-    inputs:
-      containerRegistry: 'Docker Hub'
-      command: 'login'
-  - task: Docker@2
-    displayName: Docker push
-    inputs:
-      containerRegistry: 'Docker Hub'
-      repository: '$(ImageName)'
-      command: 'push'
-      tags: 'latest'
+          - publish: helm-deploy
+            artifact: helm-deploy
+
