@@ -22,6 +22,7 @@ public class TestContainerConfig {
     public DataSource dataSource() {
         return dataSourceProperties()
                 .initializeDataSourceBuilder()
+                .driverClassName("org.postgresql.Driver")
                 .build();
     }
 
