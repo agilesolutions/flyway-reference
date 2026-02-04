@@ -5,11 +5,12 @@ import com.agilesolutions.reference.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-@ContextConfiguration(classes = {CustomerDao.class})
+@SpringJUnitConfig(classes = {CustomerDao.class})
 class CustomerDaoTest extends BasePGIntegrationTest {
 
     @Autowired
