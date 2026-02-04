@@ -1,5 +1,6 @@
 package com.agilesolutions.reference.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import javax.sql.DataSource;
 
 @Configuration
+@Slf4j
 public class TestContainerConfig {
 
 
@@ -20,7 +22,16 @@ public class TestContainerConfig {
 
     @Bean
     public DataSource dataSource() {
-        return dataSourceProperties()
+
+        DataSourceProperties dataSourceProperties = dataSourceProperties();
+        log.info("*********** DataSource Properties ***********");
+        log.info(dataSourceProperties.getUrl());
+        log.info(dataSourceProperties.getUsername());
+        log.info(dataSourceProperties.getPassword());
+        log.info(dataSourceProperties.getDriverClassName());
+        log.info("*********************************************");
+
+        return dataSourceProperties
                 .initializeDataSourceBuilder()
                 .driverClassName("org.postgresql.Driver")
                 .build();
