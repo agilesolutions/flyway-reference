@@ -1,5 +1,6 @@
 package com.agilesolutions.reference.dao;
 
+import com.agilesolutions.reference.config.TestContainerConfig;
 import com.agilesolutions.reference.dao.base.BasePGIntegrationTest;
 import com.agilesolutions.reference.model.Customer;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringJUnitConfig(classes = {CustomerDao.class})
+@SpringJUnitConfig(classes = {CustomerDao.class, TestContainerConfig.class})
 class CustomerDaoTest extends BasePGIntegrationTest {
 
     @Autowired
