@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @JdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = {CustomerDao.class})
-@TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
-@ActiveProfiles("test")
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 class CustomerDaoTest extends BasePGIntegrationTest {
 
