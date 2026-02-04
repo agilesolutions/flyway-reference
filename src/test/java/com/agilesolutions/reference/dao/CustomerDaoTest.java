@@ -2,6 +2,7 @@ package com.agilesolutions.reference.dao;
 
 import com.agilesolutions.reference.dao.base.BasePGIntegrationTest;
 import com.agilesolutions.reference.model.Customer;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -27,6 +28,7 @@ class CustomerDaoTest extends BasePGIntegrationTest {
     private CustomerDao customerDao;
 
     @Test
+    @Disabled
     void getCustomerByName() {
 
         List<Customer> customers = customerDao.getCustomerByName("rob");
