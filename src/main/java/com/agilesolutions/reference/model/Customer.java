@@ -5,13 +5,6 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 
-@Data
 @Builder
-public class Customer {
-
-    private int id;
-    private String name;
-    Timestamp system_time;
-
-
+public record Customer(int id, String name, Timestamp system_time) {
 }

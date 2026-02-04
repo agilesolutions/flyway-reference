@@ -49,7 +49,7 @@ stages:
               gradleWrapperFile: 'gradlew'
               workingDirectory: ''
               gradleOptions: '-Dorg.gradle.daemon=false'
-              tasks: '--info build -x test'
+              tasks: '--info test'
 
           - publish: azure
             artifact: azure

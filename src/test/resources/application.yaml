@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: reference
+  datasource:
+    DriverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5438/mydb
+    username: postgres
+    password: postgres
+    hikari:
+      # If you’re seeing connection closed exceptions with a Spring Boot + HikariCP + PostgreSQL setup, it usually means that Hikari is handing out connections that the database has already closed—often due to database timeouts, idle connection limits, or network interruptions.
+      # The “optimum” settings aren’t one-size-fits-all—they depend on your database’s configuration, workload, and infrastructure
+      # This is a tested baseline configuration that fixes the closed-connection issue in most PostgreSQL deployments.
+      # Core Pool Size
+      pool-name: course-service-pool
+      maximum-pool-size: 20
+      minimum-idle: 5
+      # Connection lifetime & idle handling
+      idle-timeout: 300000       # 5 minutes
+      max-lifetime: 1800000      # 30 minutes
+      # Connection validation
+      connection-test-query: SELECT 1
+      validation-timeout: 5000   # 5 seconds
+  flyway:
+    enabled: true
+    outOfOrder: true
+    ignoreFutureMigrations: true
+    locations: classpath:/db/flyway/postgres
+    url: jdbc:postgresql://localhost:5432/mydb
+    user: postgres
+    password: postgres
