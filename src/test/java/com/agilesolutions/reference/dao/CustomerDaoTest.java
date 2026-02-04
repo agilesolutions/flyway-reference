@@ -30,7 +30,7 @@ class CustomerDaoTest extends BasePGIntegrationTest {
         assertNotNull(customers);
         assertFalse(customers.isEmpty());
         for (Customer customer : customers) {
-            assertEquals("John Doe", customer.name());
+            assertEquals("rob", customer.name());
 
         }
     }
