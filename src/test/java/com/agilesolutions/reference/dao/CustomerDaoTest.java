@@ -1,17 +1,26 @@
 package com.agilesolutions.reference.dao;
 
-import com.agilesolutions.reference.config.TestContainerConfig;
 import com.agilesolutions.reference.dao.base.BasePGIntegrationTest;
 import com.agilesolutions.reference.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringJUnitConfig(classes = {CustomerDao.class, TestContainerConfig.class})
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ContextConfiguration(classes = {CustomerDao.class})
+@TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
+@ActiveProfiles("test")
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
 class CustomerDaoTest extends BasePGIntegrationTest {
 
     @Autowired
