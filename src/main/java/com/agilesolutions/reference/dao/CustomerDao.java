@@ -28,6 +28,7 @@ public class CustomerDao {
             return Customer.builder()
                     .id(rs.getInt("id"))
                     .name(rs.getString("name"))
+                    .system_time(rs.getTimestamp("system_time"))
             .build();
 
         };
@@ -38,7 +39,8 @@ public class CustomerDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", name);
 
-        return template.queryForList(SELECT_CUSTOMER, params, Customer.class);
+        return template.query(SELECT_CUSTOMER, params, getRowMapper());
+
 
     }
 
